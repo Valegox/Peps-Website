@@ -1,0 +1,41 @@
+#codeWindow {
+    width: 60vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#codeWindow #navBar {
+    height: 40px;
+    width: 90%;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#codeWindow #navBar p {
+    color: white;
+    font-size: .8em;
+}
+
+#codeInput {
+    width: 90%;
+    padding: 10px;
+    color: white;
+    background: url(http://i.imgur.com/2cOaJ.png);
+    background-attachment: local;
+    background-repeat: no-repeat;
+    padding-left: 35px;
+    padding-top: 10px;
+    border-color:#ccc;
+    background-color: #404D53;
+    resize: none;
+}
+
+#compileButton {
+    padding: 15px;
+    margin-top: 20px;
+    font-size: 1.6em;
+}
