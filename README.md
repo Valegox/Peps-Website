@@ -53,6 +53,37 @@ wait(number delay, function functionTriggeredAfterWait)
   - ```delay```: le délai d’attente avant exécution de la fonction en millisecondes,
   - ```functionTriggeredAfterWait```: la fonction exécutée après le délai choisi.
 - Type de valeur retournée par la fonction: ```undefined```.
+## Conditions
+### if
+#### Description
+Le contenu du ```if()``` est exécuté si le paramètre renvoie la valeur ```true```.
+#### Forme
+```
+if (boolean myCondition):
+  myCodeExecutedOnlyIfMyConditionIsTrue()
+```
+#### Exemple
+```
+if (2 + 2 == 4):
+  print("2 + 2 est égal à 4")
+```
+### else
+#### Description
+Le contenu du ```else``` correspond à "sinon". Il est toujours précédé d'un ```if()```.
+#### Forme
+```
+if (boolean myCondition):
+  myCodeExecutedOnlyIfMyConditionIsTrue()
+else:
+  myCodeExecutedOnlyIfMyConditionIsFalse()
+```
+#### Exemple
+```
+if (2+2 == 5):
+  print("2 + 2 est égal à 5") //cette ligne ne sera pas exécutée
+else:
+  print("2 + 2 n'est pas égal à 5") //cette ligne sera exécutée
+```
 ## Types complexes
 Les types complexes sont les types qui retournent une valeur dont le type est simple.
 ### function
@@ -71,11 +102,11 @@ function myFunctionName(myParameter):
 ```
 myFunctionName(42) //ceci exécutera la fonction, donc myCode(42)
 ```
-##### Utilisation d’une fonction en tant que paramètre:
+##### Utilisation d’une fonction en tant que paramètre
 ```
 print(myFunctionName(42)) //ceci exécutera la fonction, donc myCode(42) et affichera la valeur retournée, ici "my value".
 ```
-##### Type de valeur primitif retourné par le type complexe:
+##### Type de valeur primitif retourné par le type complexe
 ```anyType```
 ### equality
 #### Description
@@ -85,7 +116,7 @@ Egalité permettant de réaliser des tests entre deux valeur anyType au sein du 
 - \> : Vérifier si une valeur est plus grande que l’autre;
 - < : Vérifier si une valeur est plus petite qu’une autre;
 - \>= : Vérifier si une valeur est plus grande ou égale qu’une autre;
-- <= : Vérifier si une valeur est plus petite ou égale qu’une autre
+- <= : Vérifier si une valeur est plus petite ou égale qu’une autre.
 #### Exemples
 ```
 print(2 == 2) //affiche true sur la console
@@ -93,25 +124,25 @@ print(2 == 2) //affiche true sur la console
 ```
 print("test" != "test") //affiche false sur la console
 ```
-#### Type de valeur primitif retourné par le type complexe:
+#### Type de valeur primitif retourné par le type complexe
 ```boolean```
 ### operation
-#### Description:
+#### Description
 Opération mathématique entre plusieurs valeurs de type number à partir des opérateurs suivants:
 - \+ : addition
 - \- : soustraction
 - \* : multiplication
 - / : division
-#### Exemples:
+#### Exemples
 ```
 print(2 + 2) //affiche 4 sur la console
 ```
 ```
 print(5 / 7 * 86 + 42 - 8) //affiche 95.42857142857143 sur la console
 ```
-#### Type de valeur primitif retourné par le type complexe:
+#### Type de valeur primitif retourné par le type complexe
 ```number```
-## Exemple de code:
+## Exemple de code
 ```
 //le code n'est pas encore écrit
 ```
