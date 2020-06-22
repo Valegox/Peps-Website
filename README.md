@@ -1,4 +1,5 @@
 # Peps website (documentation in french)
+Le site et l'application sont encore en cours de développement.
 ## Setup
 1. Installez l’application Peps sur App Store ou Play Store.
 2. Rendez-vous sur le site de Peps et créez un projet.
