@@ -1,3 +1,7 @@
+# Peps
+Peps is a project in development. The goal is to allow anyone to easily develop games on smartphone.
+People develop games on a website and see their game simultaneiously in debugging mode on their phone via the Peps app.
+Then, people can publish their game on the Peps app, anyone will be able to try it.
 # Peps website (documentation in french)
 Le site et l'application sont encore en cours de développement.
 ## Setup
