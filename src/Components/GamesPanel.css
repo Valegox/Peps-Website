@@ -1,0 +1,24 @@
+#panelContainer {
+	width: 100vw;
+	height: 100vh;
+	padding: 30px;
+}
+
+#title {
+}
+
+#panel {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: space-around;
+	justify-content: space-around;
+}
+
+.gameIcon {
+	border-radius: 30px;
+	background-color: #D2D2D2;
+	width: 200px;
+	height: 200px;
+	margin: 20px;
+}

@@ -1,5 +1,14 @@
+.code {
+	background-color: #1a1d21;
+}
+
 #buildContainer {
 	display: flex;
 	flex-direction: row;
 	height: 100vh;
+}
+
+#verticalArea {
+	display: flex;
+	flex-direction: column;
 }

@@ -1,27 +1,23 @@
 import React from 'react'
-import firebase from '../../../Firebase/firebase'
+import {Controlled as CodeMirror} from 'react-codemirror2'
 import './WriteCodeArea.css'
-import compile from '../Compiler/Compiler'
+
+require('codemirror/lib/codemirror.css');
+require('codemirror/theme/material.css');
+require('codemirror/theme/neat.css');
+require('codemirror/mode/xml/xml.js');
+require('codemirror/mode/javascript/javascript.js');
 
 class WriteCodeArea extends React.Component {
 
     constructor() {
         super()
         this.state = {
-            code: ''
+            cursorPosition: undefined
         }
     }
 
-    compile() {
-        /*compile(this.state.code, this.props.getParentState(), newState => {
-            this.props.setParentState(newState)
-        })*/
-
-        firebase.firestore().collection('users').doc('0Vsmb2SlhgU6QDSUJmhd').update({
-            code: this.state.code
-        })
-    }
-
+    /*
     //ENABLE TAB
     _onKeyDown(event) {
         if (event.keyCode === 9) { //if TAB is pressed
@@ -37,16 +33,27 @@ class WriteCodeArea extends React.Component {
             () => this.refs.input.selectionStart = this.refs.input.selectionEnd = start + 1)
         }
     }
+    */
 
     render() {
         return (
             <div id='codeWindow'>
 
-                <div id='navBar'>
-                    <p>Navigation bar (maybe useless because of components visualization)</p>
-                </div>
+                <CodeMirror
+                    value={this.props.code}
+                    style={{"width": "150px"}}
+                    options={{
+                        mode: 'javascript',
+                        theme: 'material',
+                        lineNumbers: true
+                    }}
+                    onBeforeChange={(editor, data, value) => {
+                        this.props.setCode(value)
+                    }}
+                    cursor={this.state.cursorPosition}
+                />
 
-                <textarea
+                {/*<textarea
                     type='text'
                     value={this.state.code}
                     id='codeInput'
@@ -54,14 +61,9 @@ class WriteCodeArea extends React.Component {
                     onChange={ event => this.setState({ code: event.target.value }) }
                     onKeyDown={ event => this._onKeyDown(event) }
                     rows={40}
-                />
+                />*/}
 
-                <button
-                    id='compileButton'
-                    onClick={ () => this.compile() }
-                >
-                    Compile
-                </button>
+
             </div>
         )
     }
