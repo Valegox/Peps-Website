@@ -4,6 +4,12 @@ import './SideBar.css'
 
 class SideBar extends React.Component {
 
+    _toggleVisibility(checked) {
+        this.props.setParentState({ selectedWindow: 'code' })
+        this.props.setComponent('type', '"area"', this.props.selectedComponent)
+        this.props.setComponent('visible', checked, this.props.selectedComponent)
+    }
+
     render() {
         return (
             <div id="sideBar">
@@ -21,19 +27,22 @@ class SideBar extends React.Component {
                             <span>{this.props.selectedComponent}</span>
                         </div>
 
-                        <div id='visibleContainer'>
-                            <span>visible</span>
-                            <input 
-                                type='checkbox'
-                                value={this.props.isComponentVisible}
-                                onChange={ e => this.props.toggleComponentVisibility(e.target.checked) }
-                            />
-                        </div>
+                        {
+                            this.props.getComponent(this.props.selectedComponent).visible !== null &&
+                                <div id='visibleContainer'>
+                                    <span>visible</span>
+                                    <input 
+                                        type='checkbox'
+                                        checked={this.props.getComponent(this.props.selectedComponent).visible}
+                                        onChange={ e => this._toggleVisibility(e.target.checked) }
+                                    />
+                                </div>
+                        }
                     </div>
                 </div>
 
                 {
-                    this.props.isComponentVisible &&
+                    this.props.getComponent(this.props.selectedComponent).visible === true &&
                         <nav>
                             <div 
                                 className='button' 

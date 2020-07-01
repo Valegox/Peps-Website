@@ -3,6 +3,7 @@ import firebase from '../../Firebase/firebase'
 import './CodePage.css'
 import ComponentsVisualizationArea from './Windows/ComponentsVisualizationArea' 
 import WriteCodeArea from './Windows/WriteCodeArea'
+import StyleArea from './Windows/StyleArea'
 import SideBar from './Windows/SideBar'
 
 class CodePage extends React.Component {
@@ -14,12 +15,24 @@ class CodePage extends React.Component {
                 Main: {
                     code: 'CONSOLE //afficher la console\n\n//Ecris ton code ici',
                     openedInVisualization: true,
-                    childs: {}
+                    childs: {},
+                    visible: null,
+                    style: null,
+                    type: null,
+                    text: ''
                 }
             },
             selectedComponent: 'Main',
             selectedWindow: 'code' //if component is visible, nav is displayed and selectedWindow can also be 'style'
         }
+    }
+
+    componentDidMount() {
+        firebase.firestore().collection('users').doc('0Vsmb2SlhgU6QDSUJmhd').get().then( doc => {
+            this.setState({
+                components: doc.data().components
+            })
+        })
     }
 
     compile() {
@@ -28,7 +41,7 @@ class CodePage extends React.Component {
         })
     }
 
-    getCode(path) {
+    getComponent = (path) => {
         let { components } = this.state
 
         let js = 'components'
@@ -39,11 +52,10 @@ class CodePage extends React.Component {
             js = js + "['"+key+"'].childs"
         }
         js = js.slice(0, js.length-7) //we remove the last .childs
-        js = js + '.code'
         return eval(js)
     }
 
-    setCode(code, path) {
+    setComponent = (caracteristic, value, path) => {
         let newComponents = {...this.state.components}
 
         let js = "newComponents"
@@ -54,13 +66,33 @@ class CodePage extends React.Component {
             js = js + "[\'"+key+"\'].childs"
         }
         js = js.slice(0, js.length-7) //we remove the last .childs
-        js = js + ".code = " + "`"+code+"`"
 
+        if (caracteristic === 'style') {
+            value = this.objToString(value)
+        }
+        if (caracteristic === 'code') {
+            value = "`"+value+"`"
+        }
+        js = js + "." + caracteristic + " = " + value
+        console.log(js)
         eval(js)
 
         this.setState({
             components: newComponents
         })
+    }
+
+    objToString(obj) {
+        let str = '{'
+        Object.keys(obj).forEach( key => {
+            if (typeof obj[key] === 'string' && isNaN(obj[key]) && obj[key][0] !== '"') {
+                obj[key] = '"'+obj[key]+'"'
+            }
+            str = str+key+':'+obj[key]+','
+        })
+        str = str.substring(0, str.length-1) //remove last ,
+        str = str+'}'
+        return str
     }
 
     render() {
@@ -71,24 +103,37 @@ class CodePage extends React.Component {
 
                     <ComponentsVisualizationArea
                         components={this.state.components}
+                        getParentState={ () => this.state }
                         setParentState={ newState => this.setState(newState) }
+                        getComponent={this.getComponent}
                     />
 
                     <div id='verticalArea'>
                         <SideBar
                             compile={ () => this.compile() }
-                            isComponentVisible={this.state.isComponentVisible}
-                            toggleComponentVisibility={ value => this.setState({ isComponentVisible: value }) }
                             selectedComponent={this.state.selectedComponent}
                             selectedWindow={this.state.selectedWindow}
                             toggleSelectedWindow={ value => this.setState({ selectedWindow: value }) }
+                            getComponent={this.getComponent}
+                            setComponent={this.setComponent}
+                            setParentState={ newState => this.setState(newState) }
                         />
-                        <WriteCodeArea
-                            getParentState={ () => this.state }
-                            setParentState={ newState => this.setState(newState) }
-                            code={this.getCode(this.state.selectedComponent)}   
-                            setCode={ code => this.setCode(code, this.state.selectedComponent) }
-                        />
+
+                        {
+                            this.state.selectedWindow === 'code' ?
+                                <WriteCodeArea
+                                    getParentState={ () => this.state }
+                                    setParentState={ newState => this.setState(newState) }
+                                    code={this.getComponent(this.state.selectedComponent).code}   
+                                    setCode={ code => this.setComponent('code', code, this.state.selectedComponent) }
+                                />
+                            : this.state.selectedWindow === 'style' &&
+                                <StyleArea
+                                    selectedComponent={this.state.selectedComponent}
+                                    getComponent={this.getComponent}
+                                    setComponent={this.setComponent}
+                                />
+                        }
                     </div>
                     
                 </div>

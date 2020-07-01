@@ -5,7 +5,6 @@ import './SignPage.css'
 class SignIn extends React.Component {
 
     _submit(e) {
-        console.log('WESH"')
         e.preventDefault()
         this.props.register()
     }

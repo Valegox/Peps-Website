@@ -13,11 +13,14 @@ class ComponentsVisualizationArea extends React.Component {
 
     _onClickOnComponent(path) {
         let strPath = path.join('/')
-        this.props.setParentState({ selectedComponent: strPath })
+        this.props.setParentState({ 
+            selectedComponent: strPath, 
+            selectedWindow: this.props.getComponent(strPath).visible ? this.props.getParentState().selectedWindow : 'code'
+        })
     }
 
     _createComponent(path) {
-        const name = window.prompt('Nom du nouveau composant (ne doit pas inclure de /):', '')
+        const name = window.prompt('Nom du nouveau composant (ne doit pas inclure de / et ne doit pas s\'appeler Main):', '')
 
         if (name !== null && name !== '' && !name.includes('/')) { 
             let newComponents = {...this.props.components}
@@ -27,11 +30,14 @@ class ComponentsVisualizationArea extends React.Component {
                 jsAffectation = jsAffectation + "['"+key+"'].childs"
             }
             jsAffectation = jsAffectation + "['"+name+"']"
-            jsAffectation = jsAffectation + " = { code: '', openedInVisualization: false, childs: {} }"
+            jsAffectation = jsAffectation + " = { code: '', openedInVisualization: false, childs: {}, visible: false, type: null, text: '', style: { backgroundColor: '#FFFFFF', opacity: 1, width: '50%', height: '50%', borderWidth: 0, borderColor: '#FFFFFF', margin: 0, padding: 0, borderRadius: 0, flexDirection: 'column', flexWrap: 'nowrap', alignItems: 'flex-start', justifyContent: 'flex-start', color: '#000000', fontSize: 0, fontWeight: 'normal', textDecorationLine: 'none', fontStyle: 'normal', fontFamily: 'Arial' } }"
             
             eval(jsAffectation)
 
-            this.props.setParentState({ components: newComponents })
+            this.props.setParentState({ 
+                components: newComponents, 
+                selectedWindow: 'code'
+            })
         }
     }
 
@@ -50,9 +56,10 @@ class ComponentsVisualizationArea extends React.Component {
             
             eval(jsAffectation)
 
-            this.props.setParentState({ 
-                selectedComponent: 'Main', 
-                components: newComponents 
+            this.props.setParentState({
+                components: newComponents,
+                selectedComponent: 'Main',
+                selectedWindow: 'code' 
             })   
         }
     }
@@ -101,123 +108,6 @@ class ComponentsVisualizationArea extends React.Component {
     }
 
     render() {
-
-        /*const example = {
-            Main: {
-                content: {
-                    homePage: {
-                        content: {
-                            title: {
-                                content: null,
-                            },
-                            levelScroll: {
-                                content: {
-                                    levelList: {
-                                        content: {
-                                            levelButton: {
-                                                content: {
-                                                    lockIcon: {
-                                                        content: null
-                                                    },
-                                                    levelNumber: {
-                                                        content: null
-                                                    }
-                                                },
-                                                opened: false
-                                            },
-                                            levelButton: {
-                                                content: {
-                                                    lockIcon: {
-                                                        content: null
-                                                    },
-                                                    levelNumber: {
-                                                        content: null
-                                                    }
-                                                },
-                                                opened: false
-                                            },
-                                            levelButton: {
-                                                content: {
-                                                    lockIcon: {
-                                                        content: null
-                                                    },
-                                                    levelNumber: {
-                                                        content: null
-                                                    }
-                                                },
-                                                opened: false
-                                            }
-                                        }
-                                    }
-                                },
-                                opened: false
-                            },
-                            playButton: {
-                                content: {
-                                    playText: {
-                                        content: null
-                                    }
-                                }
-                            }
-                        },
-                        opened: true
-                    },
-                    Game: {
-                        content: {
-                            losePage: {
-                                content: null
-                            },
-                            adsArea: {
-                                content: null
-                            },
-                            background: {
-                                content: {
-                                    level1: {
-                                        content: {
-                                            dropZone: {
-                                                content: null
-                                            }
-                                        }
-                                    },
-                                    level2: {
-                                        content: {
-                                            dropZone: {
-                                                content: null
-                                            }
-                                        }
-                                    },
-                                    level3: {
-                                        content: {
-                                            dropZone: {
-                                                content: null
-                                            }
-                                        }
-                                    }
-                                },
-                                opened: false
-                            },
-                            ballList: {
-                                content: {
-                                    ball: {
-                                        content: null
-                                    },
-                                    ball: {
-                                        content: null
-                                    },
-                                    ball: {
-                                        content: null
-                                    }
-                                },
-                                opened: false
-                            }
-                        },
-                        opened: false
-                    }
-                },
-                opened: true
-            }
-        }*/
-
         return (
             <div id='leftSideContainer'>
 

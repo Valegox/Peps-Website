@@ -1,0 +1,41 @@
+#styleArea {
+	width: 80vw;
+	height: 90vh;
+	background-color: #263238;
+	padding: 30px;
+	display: flex;
+	flex-direction: column;
+	overflow: scroll;
+}
+
+#styleArea .line {
+	display: flex;
+	flex-direction: horizontal;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+#styleArea span {
+	color: white;
+	font-size: 1.2em;
+}
+
+#styleArea .note {
+	font-size: .85em;
+	border: 0;
+	margin: 0;
+}
+
+#styleArea select,
+#styleArea input {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+#styleArea #Arial {
+	font-family: Arial;
+}
+
+#styleArea #Georgia {
+	font-family: Georgia;
+}
