@@ -1,18 +1,40 @@
 #panelContainer {
 	width: 100vw;
 	height: 100vh;
-	padding: 30px;
 }
 
-#title {
+#panelContainer #topBar {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: flex-start;
+	background-image: url('../img/banner_background.png');
+	padding: 30px;
+	position: relative;
+	box-shadow: inset 0 0 0 1000px rgba(0,0,0,.5);
+}
+
+#layer {
+	background-color: rgba(0, 0, 0, .4);
+    /*background-color: rgba(248, 247, 216, 0.7);*/
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#panelContainer #title {
+	color: white;
+	zIndex: 100;
 }
 
 #panel {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	align-items: space-around;
-	justify-content: space-around;
+	align-items: flex-start;
+	justify-content: flex-start;
 }
 
 .gameIcon {
@@ -21,4 +43,17 @@
 	width: 200px;
 	height: 200px;
 	margin: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 5px 2px 2px rgba(0, 0, 0, .3);
+}
+
+.gameIcon span {
+	color: #282828;
+	font-size: 1.5em;
+}
+
+.gameIcon:hover {
+	box-shadow: 5px 2px 2px rgba(0, 0, 0, .5);
 }

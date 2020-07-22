@@ -17,9 +17,10 @@ class SideBar extends React.Component {
                 <div id='left'>
                     <div 
                         className="text-center mt-0" 
+                        id='compileButtonContainer'
                         onClick={ () => this.props.compile() }
                     >
-                        <MDBBtn color="indigo" type="submit">▶ Compiler</MDBBtn>
+                        <MDBBtn color="indigo" type="submit">▶ Compile</MDBBtn>
                     </div>
 
                     <div id='componentArea'>
@@ -38,8 +39,6 @@ class SideBar extends React.Component {
                                     />
                                 </div>
                         }
-                    </div>
-                </div>
 
                 {
                     this.props.getComponent(this.props.selectedComponent).visible === true &&
@@ -63,12 +62,19 @@ class SideBar extends React.Component {
                             </div>                            
                         </nav>
                 }
+                    </div>
+                </div>
 
                 <div 
                     className="text-center mt-0" 
                     onClick={ () => this.props.compile() }
                 >
-                    <MDBBtn color="indigo" type="submit">Quitter</MDBBtn>
+                    <MDBBtn 
+                        color="indigo" 
+                        onClick={ () => this.props.quit() }
+                    >
+                        Quit
+                    </MDBBtn>
                 </div>
 
             </div>

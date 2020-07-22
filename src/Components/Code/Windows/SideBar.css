@@ -18,12 +18,20 @@
 #left {
 	display: flex;
 	flex-direction: row;
+	height: 100%;
+}
+
+#compileButtonContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 #componentArea {
 	display: flex;
 	flex-direction: row;
 	margin-left: 20px;
+	height: 100%;
 }
 
 #componentNameContainer,
@@ -55,6 +63,7 @@
 	height: 100%;
 	align-items: center;
 	justify-content: space-between;
+	margin-left: 20px;
 }
 
 #sideBar nav .button {

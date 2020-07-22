@@ -15,6 +15,10 @@
 	margin-bottom: 20px;
 }
 
+#styleArea .subLines {
+	margin-left: 50px;
+}
+
 #styleArea span {
 	color: white;
 	font-size: 1.2em;

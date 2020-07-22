@@ -8,36 +8,25 @@ import SideBar from './Windows/SideBar'
 
 class CodePage extends React.Component {
 
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
-            components: {
-                Main: {
-                    code: 'CONSOLE //afficher la console\n\n//Ecris ton code ici',
-                    openedInVisualization: true,
-                    childs: {},
-                    visible: null,
-                    style: null,
-                    type: null,
-                    text: ''
-                }
-            },
+            components: props.game.components,
             selectedComponent: 'Main',
             selectedWindow: 'code' //if component is visible, nav is displayed and selectedWindow can also be 'style'
         }
     }
 
-    componentDidMount() {
-        firebase.firestore().collection('users').doc('0Vsmb2SlhgU6QDSUJmhd').get().then( doc => {
-            this.setState({
-                components: doc.data().components
-            })
-        })
-    }
-
     compile() {
-        firebase.firestore().collection('users').doc('0Vsmb2SlhgU6QDSUJmhd').update({
-            components: this.state.components
+        let newGames = [...this.props.games]
+        newGames.forEach( (game, index) => {
+            if (this.props.game.name === game.name) {
+                newGames[index].components = this.state.components
+
+                firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).update({
+                    games: newGames
+                })
+            }
         })
     }
 
@@ -95,6 +84,11 @@ class CodePage extends React.Component {
         return str
     }
 
+    quit = () => {
+        this.compile()
+        this.props.quit()    
+    }
+
     render() {
         return (
             <div className="code">
@@ -117,6 +111,7 @@ class CodePage extends React.Component {
                             getComponent={this.getComponent}
                             setComponent={this.setComponent}
                             setParentState={ newState => this.setState(newState) }
+                            quit={this.quit}
                         />
 
                         {

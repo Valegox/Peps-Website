@@ -3,14 +3,6 @@ import './ComponentsVisualizationArea.css'
 
 class ComponentsVisualizationArea extends React.Component {
 
-    constructor() {
-        super()
-        this.state = {
-            consoleLogs: [],
-            variables: {}
-        }
-    }
-
     _onClickOnComponent(path) {
         let strPath = path.join('/')
         this.props.setParentState({ 
@@ -20,9 +12,9 @@ class ComponentsVisualizationArea extends React.Component {
     }
 
     _createComponent(path) {
-        const name = window.prompt('Nom du nouveau composant (ne doit pas inclure de / et ne doit pas s\'appeler Main):', '')
+        const name = window.prompt('Name (cannot include special characters and cannot be called Main):', '')
 
-        if (name !== null && name !== '' && !name.includes('/')) { 
+        if (name !== null && name !== '' && !name.includes('/') && !name.includes('.') && name !== 'Main') { 
             let newComponents = {...this.props.components}
 
             let jsAffectation = 'newComponents'
@@ -30,7 +22,7 @@ class ComponentsVisualizationArea extends React.Component {
                 jsAffectation = jsAffectation + "['"+key+"'].childs"
             }
             jsAffectation = jsAffectation + "['"+name+"']"
-            jsAffectation = jsAffectation + " = { code: '', openedInVisualization: false, childs: {}, visible: false, type: null, text: '', style: { backgroundColor: '#FFFFFF', opacity: 1, width: '50%', height: '50%', borderWidth: 0, borderColor: '#FFFFFF', margin: 0, padding: 0, borderRadius: 0, flexDirection: 'column', flexWrap: 'nowrap', alignItems: 'flex-start', justifyContent: 'flex-start', color: '#000000', fontSize: 0, fontWeight: 'normal', textDecorationLine: 'none', fontStyle: 'normal', fontFamily: 'Arial' } }"
+            jsAffectation = jsAffectation + " = { code: '', openedInVisualization: false, childs: {}, visible: false, type: null, text: '', style: { backgroundColor: '#FFFFFF', position: 'relative', left: 0, bottom: 0, zIndex: 0, opacity: 1, width: '50%', height: '50%', borderWidth: 0, borderColor: '#FFFFFF', margin: 0, padding: 0, borderRadius: 0, flexDirection: 'column', flexWrap: 'nowrap', alignItems: 'flex-start', justifyContent: 'flex-start', color: '#000000', fontSize: 0, fontWeight: 'normal', textDecorationLine: 'none', fontStyle: 'normal', fontFamily: 'Arial' } }"
             
             eval(jsAffectation)
 
@@ -43,7 +35,7 @@ class ComponentsVisualizationArea extends React.Component {
 
     _deleteComponent(path, event) {
         event.stopPropagation()
-        const confirm = window.confirm('Supprimer le composant ' + path[path.length-1] + ' ?')
+        const confirm = window.confirm('Delete the component ' + path[path.length-1] + ' ?')
 
         if (confirm) {
             let newComponents = {...this.props.components}
@@ -88,7 +80,7 @@ class ComponentsVisualizationArea extends React.Component {
 
                                     {
                                         marginLeft !== 0 &&
-                                            <a onClick={ event => this._deleteComponent(newPath, event) }>Supprimer</a>
+                                            <a onClick={ event => this._deleteComponent(newPath, event) }>Delete</a>
                                     }
 
                                 </div>

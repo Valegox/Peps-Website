@@ -16,7 +16,7 @@ class StyleArea extends React.Component {
         }
 
         newStyle[property] = value
-        //console.log('value', value)
+
         this.props.setComponent('style', newStyle, this.props.selectedComponent)
     }
 
@@ -48,6 +48,48 @@ class StyleArea extends React.Component {
                                     value={style.backgroundColor}
                                     onChange={ e => this._updateStyle('backgroundColor', e.target.value) }
                                 />
+                            </div>
+
+                            <div className='line'>
+                                <span>Type de position</span>  
+                                <select 
+                                    name="position-type" 
+                                    size="1"
+                                    value={style.position}
+                                    onChange={ e => this._updateStyle('position', e.target.value) }
+                                >
+                                    <option value="relative">Relative</option>
+                                    <option value="absolute">Absolue</option>
+                                </select>
+                            </div>
+
+                            <div className='subLines'>
+                                <div className='line'>
+                                    <span>X (position horizontale)</span>  
+                                    <input
+                                        type='text'
+                                        value={style.left}
+                                        onChange={ e => this._updateStyle('left', e.target.value) }
+                                    />
+                                </div>
+
+                                <div className='line'>
+                                    <span>Y (position verticale)</span>  
+                                    <input
+                                        type='text'
+                                        value={style.bottom}
+                                        onChange={ e => this._updateStyle('bottom', e.target.value) }
+                                    />
+                                </div>
+
+                                <div className='line'>
+                                    <span>Z (niveau de superposition avec les autres composants)</span>  
+                                    <input
+                                        type='text'
+                                        value={style.zIndex}
+                                        onChange={ e => this._updateStyle('zIndex', e.target.value) }
+                                    />
+                                </div>
                             </div>
 
                             <div className='line'>
@@ -151,47 +193,55 @@ class StyleArea extends React.Component {
 
                             {
                                 !(style.flexDirection === 'column' && style.flexWrap !== 'nowrap') ?
-                                    <div className='line'>
-                                        <span>Alignement horizontal des composants enfants</span>  
-                                        <select 
-                                            name="horizontal-alignment" 
-                                            size="1"
-                                            value={style.flexDirection === 'column' ? style.alignItems : style.justifyContent}
-                                            onChange={ e => this._updateStyle(style.flexDirection === 'column' ? 'alignItems' : 'justifyContent', e.target.value) }
-                                        >
-                                            <option value="flex-start">Tout à gauche</option>
-                                            <option value="center">Tout centré</option>
-                                            <option value="flex-end">Tout à droite</option>
-                                            <option value="space-around">Espace autour des composants</option>
-                                            <option value="space-between">Espace entre les composants</option>
-                                        </select>
+                                    <div className='subLines'>
+                                        <div className='line'>
+                                            <span>Alignement horizontal des composants enfants</span>  
+                                            <select 
+                                                name="horizontal-alignment" 
+                                                size="1"
+                                                value={style.flexDirection === 'column' ? style.alignItems : style.justifyContent}
+                                                onChange={ e => this._updateStyle(style.flexDirection === 'column' ? 'alignItems' : 'justifyContent', e.target.value) }
+                                            >
+                                                <option value="flex-start">Tout à gauche</option>
+                                                <option value="center">Tout centré</option>
+                                                <option value="flex-end">Tout à droite</option>
+                                                <option value="space-around">Espace autour des composants</option>
+                                                <option value="space-between">Espace entre les composants</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                : 
-                                    <div className='line'>
-                                        <span>Il faut mettre "comportement des composants enfants lorsqu'ils dépassent le composant parent" sur "Dépasser" pour pouvoir paramétrer l'alignement horizontal des composants enfants.</span>
+                                :
+                                    <div className='subLines'> 
+                                        <div className='line'>
+                                            <span>Il faut mettre "comportement des composants enfants lorsqu'ils dépassent le composant parent" sur "Dépasser" pour pouvoir paramétrer l'alignement horizontal des composants enfants.</span>
+                                        </div>
                                     </div>
                             }
 
                             {
                                 !(style.flexDirection === 'row' && style.flexWrap !== 'nowrap') ?
-                                    <div className='line'>
-                                        <span>Alignement vertical des composants enfants</span>  
-                                        <select 
-                                            name="vertical-alignment" 
-                                            size="1"
-                                            value={style.flexDirection === 'column' ? style.justifyContent : style.alignItems}
-                                            onChange={ e => this._updateStyle(style.flexDirection === 'column' ? 'justifyContent' : 'alignItems', e.target.value) }
-                                        >
-                                            <option value="flex-start">Tout en haut</option>
-                                            <option value="center">Tout centré</option>
-                                            <option value="flex-end">Tout en bas</option>
-                                            <option value="space-around">Espace autour des composants</option>
-                                            <option value="space-between">Espace entre les composants</option>
-                                        </select>
+                                    <div className='subLines'>
+                                        <div className='line'>
+                                            <span>Alignement vertical des composants enfants</span>  
+                                            <select 
+                                                name="vertical-alignment" 
+                                                size="1"
+                                                value={style.flexDirection === 'column' ? style.justifyContent : style.alignItems}
+                                                onChange={ e => this._updateStyle(style.flexDirection === 'column' ? 'justifyContent' : 'alignItems', e.target.value) }
+                                            >
+                                                <option value="flex-start">Tout en haut</option>
+                                                <option value="center">Tout centré</option>
+                                                <option value="flex-end">Tout en bas</option>
+                                                <option value="space-around">Espace autour des composants</option>
+                                                <option value="space-between">Espace entre les composants</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 :
-                                    <div className='line'>
-                                        <span>Il faut mettre "comportement des composants enfants lorsqu'ils dépassent le composant parent" sur "Dépasser" pour pouvoir paramétrer l'alignement vertical des composants enfants.</span>
+                                    <div className='subLines'>
+                                        <div className='line'>
+                                            <span>Il faut mettre "comportement des composants enfants lorsqu'ils dépassent le composant parent" sur "Dépasser" pour pouvoir paramétrer l'alignement vertical des composants enfants.</span>
+                                        </div>
                                     </div>
                             }
                         </div>
@@ -214,6 +264,48 @@ class StyleArea extends React.Component {
                                     value={style.color}
                                     onChange={ e => this._updateStyle('color', e.target.value) }
                                 />
+                            </div>
+
+                            <div className='line'>
+                                <span>Type de position</span>  
+                                <select 
+                                    name="position-type" 
+                                    size="1"
+                                    value={style.position}
+                                    onChange={ e => this._updateStyle('position', e.target.value) }
+                                >
+                                    <option value="relative">Relative</option>
+                                    <option value="absolute">Absolue</option>
+                                </select>
+                            </div>
+
+                            <div className='subLines'>
+                                <div className='line'>
+                                    <span>X (position horizontale)</span>  
+                                    <input
+                                        type='number'
+                                        value={style.left}
+                                        onChange={ e => this._updateStyle('left', e.target.value) }
+                                    />
+                                </div>
+
+                                <div className='line'>
+                                    <span>Y (position verticale)</span>  
+                                    <input
+                                        type='number'
+                                        value={style.bottom}
+                                        onChange={ e => this._updateStyle('bottom', e.target.value) }
+                                    />
+                                </div>
+
+                                <div className='line'>
+                                    <span>Z (niveau de superposition avec les autres composants)</span>  
+                                    <input
+                                        type='number'
+                                        value={style.zIndex}
+                                        onChange={ e => this._updateStyle('zIndex', e.target.value) }
+                                    />
+                                </div>
                             </div>
 
                             <div className='line'>

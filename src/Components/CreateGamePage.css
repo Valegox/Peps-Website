@@ -1,0 +1,27 @@
+#createGameContainer {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	/*background-image: url('../img/create_game_background.jpg');*/
+	/*box-shadow: inset 0 0 0 1000px rgba(0,0,0,.5);*/
+}
+
+#formArea {
+	width: 50vw;
+}
+
+#createGameContainer #title {
+	padding-bottom: 50px;
+	font-size: 4em;
+	color: white;
+}
+
+#createGameContainer #title,
+#createGameContainer p,
+#createGameContainer span {
+	color: black;
+}
