@@ -18,13 +18,20 @@ class CreateGamePage extends React.Component {
                 description: this._gameDescription,
                 components: {
                     Main: {
+                        name: 'Main',
                         code: 'CONSOLE //afficher la console\n\n//Ecris ton code ici',
-                        openedInVisualization: true,
-                        childs: {},
+                        style: {
+                            flexDirection: 'column', 
+                            flexWrap: 'nowrap',
+                            alignItems: 'flex-start',
+                            justifyContent: 'flex-start',
+                            width: '100%',
+                            height: '100%'
+                        },
                         visible: null,
-                        style: null,
                         type: null,
-                        text: ''
+                        children: {},
+                        textContent: ''
                     }
                 }
             }

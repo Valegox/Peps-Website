@@ -17,11 +17,17 @@ class StyleArea extends React.Component {
 
         newStyle[property] = value
 
+        //bug workaround
+        if (property !== 'transform') {
+            newStyle.transform = ["[{ rotate: '" + style.transform[0].rotate + "' }]"]
+        }
+
         this.props.setComponent('style', newStyle, this.props.selectedComponent)
     }
 
     render() {
         const { style } = {...this.props.getComponent(this.props.selectedComponent)}
+
         return (
             <div id="styleArea">
 
@@ -47,6 +53,13 @@ class StyleArea extends React.Component {
                                     type='color' 
                                     value={style.backgroundColor}
                                     onChange={ e => this._updateStyle('backgroundColor', e.target.value) }
+                                />
+
+                                <span>Transparent</span>
+                                <input 
+                                    type='checkbox'
+                                    checked={style.backgroundColor === 'transparent'}
+                                    onChange={ e => this._updateStyle('backgroundColor', style.backgroundColor === 'transparent' ? '#FFFFFF' : 'transparent') }
                                 />
                             </div>
 
@@ -90,6 +103,15 @@ class StyleArea extends React.Component {
                                         onChange={ e => this._updateStyle('zIndex', e.target.value) }
                                     />
                                 </div>
+                            </div>
+
+                            <div className='line'>
+                                <span>Rotation (en radians)</span>
+                                <input 
+                                    type='number' 
+                                    value={style.transform[0].rotate}
+                                    onChange={ e => this._updateStyle('transform', ["[{ rotate: '"+ e.target.value + "' }]"]) }
+                                />
                             </div>
 
                             <div className='line'>
@@ -252,8 +274,8 @@ class StyleArea extends React.Component {
                                 <span>Texte</span>  
                                 <input
                                     type='text'
-                                    value={this.props.getComponent(this.props.selectedComponent).text}
-                                    onChange={ e => this.props.setComponent('text', '"'+e.target.value+'"', this.props.selectedComponent)}
+                                    value={this.props.getComponent(this.props.selectedComponent).textContent}
+                                    onChange={ e => this.props.setComponent('textContent', '"'+e.target.value+'"', this.props.selectedComponent)}
                                 />
                             </div>
 

@@ -35,6 +35,7 @@ class App extends React.Component {
                             games={this.state.games}
                             clickOnGame={ game => this.setState({ page: 'codePage', openedGame: game }) }
                             clickOnCreateGame={ () => this.setState({ page: 'createGame' }) }
+                            quit={ () => this.setState({ page: 'sign' }) }
                         />
                     : this.state.page === 'createGame' ?
                         <CreateGamePage

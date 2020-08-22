@@ -109,7 +109,7 @@ class SignUp extends React.Component {
                                         <a id="noAccountLink" onClick={ () => this.props.toggleSignIn() }><span>J'ai déjà un compte</span></a>
                                     </div>
 
-                                    <div className="p-center mt-4">
+                                    <div id='buttonContainer' className="p-center mt-4">
                                         <MDBBtn color="indigo" type="submit">Connexion</MDBBtn>
                                     </div>
                                 </form>

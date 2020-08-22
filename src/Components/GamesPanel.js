@@ -9,6 +9,20 @@ class GamesPanel extends React.Component {
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).onSnapshot( doc => {
             this.props.setGames(doc.data().games)
         })
+
+        /*
+        firebase.firestore().collection('users').doc('EKkTNp6wVRdE1mr478YQuLExcpm1').get().then( doc => {
+            firebase.firestore().collection('publicGames').doc('hwJ0eIKSVn1MLOgdQRvL').update({
+                components: doc.data().games[0].components
+            })
+        })
+        */
+    }
+
+    _logOut() {
+        firebase.auth().signOut().then( () => {
+            this.props.quit()
+        })
     }
 
     render() {
@@ -18,7 +32,13 @@ class GamesPanel extends React.Component {
 
                 <div id='topBar'>
                     <h1 id='title'>Mes jeux</h1>
-                    <MDBBtn color="indigo">Déconnexion</MDBBtn>
+
+                    <MDBBtn 
+                        color="indigo"
+                        onClick={ () => this._logOut() }
+                    >
+                        Déconnexion
+                    </MDBBtn>
                     
                 </div>
 

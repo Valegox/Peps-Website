@@ -3,7 +3,20 @@ import './ComponentsVisualizationArea.css'
 
 class ComponentsVisualizationArea extends React.Component {
 
-    _onClickOnComponent(path) {
+    _onMouseEnterInComponent = path => {
+        let strPath = path.join('/')
+        this.props.setParentState({
+            componentHoveredByMouse: strPath
+        })
+    }
+
+    _onMouseLeaveComponent = () => {
+        this.props.setParentState({
+            componentHoveredByMouse: null
+        })
+    }
+
+    _onClickOnComponent = path => {
         let strPath = path.join('/')
         this.props.setParentState({ 
             selectedComponent: strPath, 
@@ -11,40 +24,68 @@ class ComponentsVisualizationArea extends React.Component {
         })
     }
 
-    _createComponent(path) {
-        const name = window.prompt('Name (cannot include special characters and cannot be called Main):', '')
+    _declareComponent = path => {
+        const name = window.prompt('Name (cannot include special characters):', '')
 
         if (name !== null && name !== '' && !name.includes('/') && !name.includes('.') && name !== 'Main') { 
-            let newComponents = {...this.props.components}
-
-            let jsAffectation = 'newComponents'
-            for (let key of path) {
-                jsAffectation = jsAffectation + "['"+key+"'].childs"
-            }
-            jsAffectation = jsAffectation + "['"+name+"']"
-            jsAffectation = jsAffectation + " = { code: '', openedInVisualization: false, childs: {}, visible: false, type: null, text: '', style: { backgroundColor: '#FFFFFF', position: 'relative', left: 0, bottom: 0, zIndex: 0, opacity: 1, width: '50%', height: '50%', borderWidth: 0, borderColor: '#FFFFFF', margin: 0, padding: 0, borderRadius: 0, flexDirection: 'column', flexWrap: 'nowrap', alignItems: 'flex-start', justifyContent: 'flex-start', color: '#000000', fontSize: 0, fontWeight: 'normal', textDecorationLine: 'none', fontStyle: 'normal', fontFamily: 'Arial' } }"
-            
-            eval(jsAffectation)
-
-            this.props.setParentState({ 
-                components: newComponents, 
-                selectedWindow: 'code'
-            })
+            const component = "{ name: '" + name + "', code: '', children: {}, visible: false, type: 'area', textContent: '', style: { backgroundColor: '#FFFFFF', position: 'relative', left: 0, bottom: 0, zIndex: 0, transform: [{ rotate: 0 }], opacity: 1, width: '50%', height: '50%', borderWidth: 0, borderColor: '#FFFFFF', margin: 0, padding: 0, borderRadius: 0, flexDirection: 'column', flexWrap: 'nowrap', alignItems: 'flex-start', justifyContent: 'flex-start', color: '#000000', fontSize: 0, fontWeight: 'normal', textDecorationLine: 'none', fontStyle: 'normal', fontFamily: 'Arial' } }"
+            this._createComponent(name, component, path)
         }
+    }   
+
+    _createComponent = (name, value, path) => {
+
+        let newComponents = {...this.props.components}
+
+        let jsAffectation = 'newComponents'
+        for (let key of path) {
+            jsAffectation = jsAffectation + "['"+key+"'].children"
+        }
+        jsAffectation = jsAffectation + "['"+name+"']"
+        jsAffectation = jsAffectation + " = " + value
+        
+        eval(jsAffectation)
+
+        this.props.setParentState({ 
+            components: newComponents, 
+            selectedWindow: 'code'
+        })
     }
 
-    _deleteComponent(path, event) {
+    _copyComponent = (path, event) => {
         event.stopPropagation()
-        const confirm = window.confirm('Delete the component ' + path[path.length-1] + ' ?')
+
+        let { components } = this.props
+        let jsComponent = 'components'
+        for (let key of path) {
+            jsComponent = jsComponent + "['"+key+"'].children"
+        }
+        jsComponent = jsComponent.substring(0, jsComponent.length-9) //we remove last .children
+
+        let component = eval(jsComponent)
+
+        this.props.setParentState({
+            copiedComponent: component
+        })
+    }
+
+    _pasteComponent = (path, event) => {
+        event.stopPropagation()
+        this._createComponent(this.props.getParentState().copiedComponent.name, JSON.stringify(this.props.getParentState().copiedComponent), path)
+    }
+
+    _deleteComponent = (path, event) => {
+        event.stopPropagation()
+        const confirm = window.confirm('Delete ' + path[path.length-1] + ' ?')
 
         if (confirm) {
             let newComponents = {...this.props.components}
 
             let jsAffectation = 'delete newComponents'
             for (let key of path) {
-                jsAffectation = jsAffectation + "['"+key+"'].childs"
+                jsAffectation = jsAffectation + "['"+key+"'].children"
             }
-            jsAffectation = jsAffectation.slice(0, jsAffectation.length-7) //we remove the last .childs
+            jsAffectation = jsAffectation.slice(0, jsAffectation.length-9) //we remove the last .children
             
             eval(jsAffectation)
 
@@ -56,39 +97,63 @@ class ComponentsVisualizationArea extends React.Component {
         }
     }
 
-    _generateSchema(object, path, marginLeft) {
+    _generateSchema = (object, path, marginLeft) => {
         return (
             <div className='item' style={{ marginLeft: marginLeft }}>
                 { 
                     Object.keys(object).map( (component, index) => {
                         let newPath = [...path]
                         newPath.push(component)
+                        let isHovered = this.props.getParentState().componentHoveredByMouse === newPath.join('/')
+                        let displayPasteButton = this.props.getParentState().copiedComponent !== null
                         return (
-                            <div className='uniqueComponent' key={index}>
-                                <div className='nameContainer' onClick={ () => this._onClickOnComponent(newPath) }>
+                            <div 
+                                className='uniqueComponent'
+                                key={index}
+                            >
+                                <div
+                                    className='nameContainer'
+                                    onMouseEnter={ () => this._onMouseEnterInComponent(newPath) } 
+                                    onMouseLeave={this._onMouseLeaveComponent}
+                                    onClick={ () => this._onClickOnComponent(newPath) }
+
+                                >
                                     <span>
                                         {
-                                            Object.keys(object[component].childs).length > 0 && '▼'
+                                            Object.keys(object[component].children).length > 0 && '▼'
                                         } 
                                         {component}
                                     </span>
 
-                                    <img 
-                                        src={require('../../../img/create_component_icon.png')}
-                                        onClick={ () => this._createComponent(newPath) }
-                                    />
+                                    {
+                                        isHovered &&
+                                            <img 
+                                                src={require('../../../img/create_component_icon.png')}
+                                                onClick={ () => this._declareComponent(newPath) }
+                                            />
+                                    }
 
                                     {
-                                        marginLeft !== 0 &&
+                                        marginLeft !== 0 && isHovered &&
+                                            <a onClick={ event => this._copyComponent(newPath, event) }>Copy</a>
+                                    }
+
+                                    {
+                                        marginLeft !== 0 && isHovered &&
                                             <a onClick={ event => this._deleteComponent(newPath, event) }>Delete</a>
+                                    }
+
+                                    {
+                                        displayPasteButton && isHovered &&
+                                            <a onClick={ event => this._pasteComponent(newPath, event) }>Paste</a>
                                     }
 
                                 </div>
 
                                 <div className='componentsContainer'>
                                     {
-                                        object[component].childs !== null &&
-                                            this._generateSchema(object[component].childs, newPath, marginLeft+10) 
+                                        object[component].children !== null &&
+                                            this._generateSchema(object[component].children, newPath, marginLeft+10) 
                                     }
                                 </div>
                             </div>

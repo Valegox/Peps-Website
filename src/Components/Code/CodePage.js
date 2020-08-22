@@ -12,7 +12,9 @@ class CodePage extends React.Component {
         super(props)
         this.state = {
             components: props.game.components,
-            selectedComponent: 'Main',
+            selectedComponent: 'Main', //string path
+            componentHoveredByMouse: null, //string path
+            copiedComponent: null, //static component
             selectedWindow: 'code' //if component is visible, nav is displayed and selectedWindow can also be 'style'
         }
     }
@@ -38,13 +40,16 @@ class CodePage extends React.Component {
         let arrayPath = path.split('/')
 
         for (let key of arrayPath) {
-            js = js + "['"+key+"'].childs"
+            js = js + "['"+key+"'].children"
         }
-        js = js.slice(0, js.length-7) //we remove the last .childs
+        js = js.slice(0, js.length-9) //we remove the last .children
         return eval(js)
     }
 
     setComponent = (caracteristic, value, path) => {
+
+        console.log(1, value)
+
         let newComponents = {...this.state.components}
 
         let js = "newComponents"
@@ -52,9 +57,10 @@ class CodePage extends React.Component {
         let arrayPath = path.split('/')
 
         for (let key of arrayPath) {
-            js = js + "[\'"+key+"\'].childs"
+            js = js + "[\'"+key+"\'].children"
         }
-        js = js.slice(0, js.length-7) //we remove the last .childs
+
+        js = js.slice(0, js.length-9) //we remove the last .children
 
         if (caracteristic === 'style') {
             value = this.objToString(value)
@@ -63,7 +69,7 @@ class CodePage extends React.Component {
             value = "`"+value+"`"
         }
         js = js + "." + caracteristic + " = " + value
-        console.log(js)
+        console.log(2, js)
         eval(js)
 
         this.setState({

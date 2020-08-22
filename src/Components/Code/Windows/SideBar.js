@@ -20,7 +20,7 @@ class SideBar extends React.Component {
                         id='compileButtonContainer'
                         onClick={ () => this.props.compile() }
                     >
-                        <MDBBtn color="indigo" type="submit">▶ Compile</MDBBtn>
+                        <MDBBtn color="indigo" type="submit">▶ Run</MDBBtn>
                     </div>
 
                     <div id='componentArea'>

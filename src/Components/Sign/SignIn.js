@@ -20,9 +20,6 @@ class SignIn extends React.Component {
 
         firebase.auth().signInWithEmailAndPassword(this._email, this._password).then( () => {
 
-            const { currentUser } = firebase.auth()
-            const userID = currentUser.uid
-
             this.props.register()
 
         }).catch( error => {
@@ -75,7 +72,7 @@ class SignIn extends React.Component {
                                         <a id="noAccountLink" onClick={ () => this.props.toggleSignUp() }><span>Je n'ai pas encore de compte</span></a>
                                     </div>
 
-                                    <div className="p-center mt-4">
+                                    <div id='buttonContainer' className="div-center mt-4">
                                         <MDBBtn color="indigo" type="submit">Connexion</MDBBtn>
                                     </div>
                                 </form>
