@@ -12,8 +12,8 @@ class GamesPanel extends React.Component {
 
         /*
         firebase.firestore().collection('users').doc('EKkTNp6wVRdE1mr478YQuLExcpm1').get().then( doc => {
-            firebase.firestore().collection('publicGames').doc('hwJ0eIKSVn1MLOgdQRvL').update({
-                components: doc.data().games[0].components
+            firebase.firestore().collection('publicGames').doc('0sPVok9jz3ikPJ0wUd7X').update({
+                components: doc.data().games[2].components
             })
         })
         */

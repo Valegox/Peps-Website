@@ -241,7 +241,7 @@ class StyleArea extends React.Component {
                             }
 
                             {
-                                !(style.flexDirection === 'row' && style.flexWrap !== 'nowrap') ?
+                                /*!(style.flexDirection === 'row' && style.flexWrap !== 'nowrap') ?*/}
                                     <div className='subLines'>
                                         <div className='line'>
                                             <span>Alignement vertical des composants enfants</span>  
@@ -259,13 +259,13 @@ class StyleArea extends React.Component {
                                             </select>
                                         </div>
                                     </div>
-                                :
+                            {/*    :
                                     <div className='subLines'>
                                         <div className='line'>
                                             <span>Il faut mettre "comportement des composants enfants lorsqu'ils dépassent le composant parent" sur "Dépasser" pour pouvoir paramétrer l'alignement vertical des composants enfants.</span>
                                         </div>
                                     </div>
-                            }
+                            */}
                         </div>
                     :
                         <div>

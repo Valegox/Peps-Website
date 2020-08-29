@@ -55,6 +55,7 @@
 #componentsVisualizationArea a {
 	color: grey;
 	margin-left: 5px;
+	font-size: .7em;
 }
 
 #componentsVisualizationArea a:hover {
